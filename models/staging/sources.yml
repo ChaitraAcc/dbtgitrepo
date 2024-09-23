@@ -18,3 +18,5 @@ sources:
     tables:
       - name: payment
         description: payments orders with customers
+      - name: invoices
+      - name : status
