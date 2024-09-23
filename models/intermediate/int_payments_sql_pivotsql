@@ -1,0 +1,17 @@
+with payment as (
+    select * from {{ ref('stg_payment') }}
+),
+ 
+pivot as
+    (
+        select
+            orderid,
+            sum(case when paymentmethod = 'bank_transfer' then amount else null end) as bank_transfer_amount,
+            sum(case when paymentmethod = 'coupon' then amount else null end) as coupon_amount,
+            sum(case when paymentmethod = 'credit_card' then amount else null end) as credit_card_amount,
+            sum(case when paymentmethod = 'gift_card' then amount else null end) as gift_card_amount
+ 
+        from payment
+        group by orderid
+    )
+select * from pivot
